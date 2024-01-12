@@ -33,6 +33,8 @@ path("cadmin1",views.cadmin1),
     path("nonpremiumtemp",views.nonpremiumtemp),
     path("homemail",views.homemail),
     path("otpverification",views.otpverification),
+path("explore",views.explore),
+ path("otpforgot",views.otpforgot),
 
 
 ]

@@ -70,12 +70,23 @@
                  <i class="fas fa-home fa-lg" style="color: #06A1C4;"></i> 
              </a>
          </div>
+
+         <div class="position-absolute" style="left: 80%; top: 88%;">
+            <a href="otpforgot" title="Forgot" class="d-flex align-items-center" style="text-decoration: none;">
+            <i class="fas fa-unlock-alt fa-lg" style="color: #06A1C4;"></i></a>
+
+
+         </div>
      </div>
      
    </form>
 </div>
-   <div class="overbox">
-      <div class="material-button alt-2"><span class="shape"></span></div>
+   <div class="overbox" style="width:100%;">
+     
+      <div class="material-button alt-2" title="Register" >
+         <span class="shape" title="Register" ></span>
+     </div>
+     
       
       <form method="post" action="registerr">
          {% csrf_token %}

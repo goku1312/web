@@ -134,6 +134,7 @@ def registerr(request):
             if all(field in request.POST for field in ['regname', 'regpass', 'reregpass']):
                 # Registration
                 username = request.POST['regname']
+                request.session['username']=username
                 password1 = request.POST['regpass']
                 password2 = request.POST['reregpass']
                 # gmail=request.POST['gmail']
@@ -464,17 +465,17 @@ def otpverification(request):
         email = request.POST.get('email', '')
         message =  get_random_string(length=6, allowed_chars='0123456789')
         request.session['message']=message
+        request.session['email']=email
         
         # Assuming you have a default email address set in your Django settings
         recipient_email = settings.DEFAULT_FROM_EMAIL
       
         print(email)
        
-        print(recipient_email)
         # Send email
         send_mail(
             'OTP Verification',
-            f' your otp is {message}',
+            f' Your OTP is {message}',
             email,
             [email],
             fail_silently=False,
@@ -488,6 +489,8 @@ def otpverification(request):
 def otpverification1(request):
 
     try:
+        email = request.session['email']
+        username = request.session['username']
         message = request.session['message']
         print(message)
         otp = request.POST.get('otp')
@@ -495,9 +498,44 @@ def otpverification1(request):
         
 
         if int(otp) == int(message):
+            existing_login = Logins.objects.filter(username=username).first()
+
+# Assuming 'email' is the field representing the email
+            if existing_login:
+    # If the username exists, update the email
+                existing_login.email = email  # Replace 'new_email' with the email you want to set
+                existing_login.save()
+            
             return HttpResponseRedirect('login')
         else:
             messages.error(request, 'Invalid OTP')
     except Exception as e:
         messages.error(request, f'Error in OTP verification: {e}')
 
+
+def explore(request):
+    temps = TemplateCard.objects.all().filter()
+    paginator = Paginator(temps, 6)
+    try:
+        page = int(request.GET.get('page', "1"))
+    except:
+        page = 1
+    try:
+        temps = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        temps = paginator.page(paginator.num_pages)
+
+    premiums = PremiumCard.objects.all().filter()
+    paginators = Paginator(premiums, 8)
+    try:
+        pages = int(request.GET.get('page', "1"))
+    except:
+        pages = 1
+    try:
+        premiums = paginators.page(pages)
+    except (EmptyPage, InvalidPage):
+        premiums = paginators.page(paginator.num_pages)    
+    return render(request,"explore.html",{'temps':temps,'premiums':premiums,})
+
+def otpforgot(request):
+    return render(request,"otpforgot.html")

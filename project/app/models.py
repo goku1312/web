@@ -9,6 +9,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 class login(models.Model):
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=30)
+    email = models.EmailField()
     def __str__(self):
         return self.username
 
@@ -25,9 +26,9 @@ class register(models.Model):
 class Logins(models.Model):
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=30)
+    email = models.EmailField()
     def __str__(self):
         return self.username
-    
 
 
 class PremiumCard(models.Model):
