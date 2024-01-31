@@ -539,3 +539,66 @@ def explore(request):
 
 def otpforgot(request):
     return render(request,"otpforgot.html")
+
+
+
+def otpforgotverification(request):
+    if request.method == 'POST':
+        # name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        messagee =  get_random_string(length=6, allowed_chars='0123456789')
+        request.session['messagee']=messagee
+        request.session['email']=email
+        
+        # Assuming you have a default email address set in your Django settings
+        recipient_email = settings.DEFAULT_FROM_EMAIL
+      
+        print(email)
+       
+        # Send email
+        send_mail(
+            'OTP Verification',
+            f' Your OTP is {messagee}',
+            email,
+            [email],
+            fail_silently=False,
+        )
+
+        # Return a success response
+        return render(request,"otpforgotverify.html")
+    
+
+
+def otpforgotverification1(request):
+
+    if request.method == 'POST':
+        email = request.session['email']
+        
+        messagee = request.session['messagee']
+        print(messagee)
+        otp = request.POST.get('otp')
+        print(otp)
+        
+
+        if int(otp) == int(messagee):
+            
+            
+            return render(request,'passforgot.html')
+        else:
+            messages.error(request, 'Invalid OTP')
+      
+
+
+
+def passreset(request):
+    if request.method == 'POST':
+        email = request.session['email']
+        otp = request.POST.get('otp')
+
+        if Logins.objects.filter(email=email).exists():
+            user = Logins.objects.get(email=email)
+            user.password = otp
+            user.save()
+            return  HttpResponseRedirect('login')
+
+

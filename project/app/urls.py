@@ -35,6 +35,9 @@ path("cadmin1",views.cadmin1),
     path("otpverification",views.otpverification),
 path("explore",views.explore),
  path("otpforgot",views.otpforgot),
+ path("otpforgotverification",views.otpforgotverification),
+ path("otpforgotverification1",views.otpforgotverification1),
+ path("passreset",views.passreset),
 
 
 ]

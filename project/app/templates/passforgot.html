@@ -42,24 +42,24 @@
 
    <div class="box">
   <!-- Update your HTML form -->
-<form method="post" action="otpforgotverification">
+<form method="post" action="passreset">
     {% csrf_token %}
-    <div class="title">Reset Password</div>
+    <div class="title">Verification</div>
     {% if error_message %}
        <p class="error-message" style="height: 2px;">{{ error_message }}</p>
     {% endif %}
  
-    <div class="input">
+    <!-- <div class="input">
        <label for="email">Email</label>
        <input type="email" name="email" id="email" required>
        <span class="spin"></span>
-    </div>
+    </div> -->
  
-    <!-- <div class="input">
-       <label for="otp">OTP</label>
+    <div class="input">
+       <label for="otp">New Password</label>
        <input type="text" name="otp" id="otp" required>
        <span class="spin"></span>
-    </div> -->
+    </div>
  
     <div class="button login">
        <button><span>submit</span> <i class="fa fa-check"></i></button>
